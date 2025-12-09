@@ -257,7 +257,7 @@ function App() {
       role: 'Security & Testing Lead',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/aqeel',
-      linkedin: 'https://linkedin.com/in/aqeel',
+      linkedin: 'https://www.linkedin.com/in/aqeel-aroos-12626231a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
       image: teamImages.aqeel
     },
     {
@@ -266,7 +266,7 @@ function App() {
       role: 'Operations Director',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/shehan',
-      linkedin: 'https://linkedin.com/in/shehan-randhil',
+      linkedin: 'https://www.linkedin.com/in/shehanrandil?trk=contact-info',
       image: teamImages.shehan
     }
   ];
