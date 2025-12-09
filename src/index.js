@@ -230,7 +230,7 @@ function App() {
       role: 'Project Lead & Backend Architect',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/branavaram',
-      linkedin: 'https://linkedin.com/in/branavaram',
+      linkedin: 'https://www.linkedin.com/in/g-branavaram-351873209?utm_source=share_via&utm_content=profile&utm_medium=member_ios',
       image: teamImages.branavaram
     },
     {
