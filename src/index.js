@@ -2397,7 +2397,7 @@ function App() {
                 color: '#94A3B8',
                 marginBottom: '8px'
               }}>
-                © 2024 Securefy Smart Locker System. All rights reserved.
+                © 2025 Securefy Smart Locker System. All rights reserved.
               </div>
               <div style={{
                 fontSize: isMobile ? '11px' : '12px',
