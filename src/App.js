@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import './App.css';
 
 function App() {
@@ -67,6 +68,19 @@ function App() {
 
   return (
     <div className={`app ${theme}`}>
+      <Helmet>
+        <title>Smart Locker System | IIT University Library</title>
+        <meta 
+          name="description" 
+          content="At Securefy, we combine smart technology, strong security, and simple user-friendly design to deliver solutions that truly make life easier. Our system is built with a focus on innovation, reliability, and trust, ensuring that every user enjoys a seamless and secure experience. We don't just provide a service we provide peace of mind, backed by modern engineering and a commitment to excellence."
+        />
+        <meta name="keywords" content="smart locker system, IIT University, secure storage, campus lockers, IoT lockers, student storage" />
+        <meta property="og:title" content="Smart Locker System | IIT University Library" />
+        <meta property="og:description" content="Enterprise smart locker system revolutionizing campus storage through innovative technology for IIT University." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://security.online" />
+      </Helmet>
+
       {/* Navigation */}
       <nav className="navbar">
         <div className="container">
