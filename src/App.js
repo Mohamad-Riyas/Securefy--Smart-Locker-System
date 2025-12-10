@@ -8,6 +8,24 @@ function App() {
     document.body.className = theme;
   }, [theme]);
 
+  document.title = 'Smart Locker System | IIT University Library';
+
+  const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 
+        'At Securefy, we combine smart technology, strong security, and simple user-friendly design to deliver solutions that truly make life easier. Our system is built with a focus on innovation, reliability, and trust, ensuring that every user enjoys a seamless and secure experience.'
+      );
+    }
+    
+    // Update OG tags for social sharing
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 
+        'Enterprise smart locker system for IIT University Library with military-grade security and instant QR access.'
+      );
+    }
+  }, [theme]);
+
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
