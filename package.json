@@ -35,3 +35,11 @@
     "@types/react-dom": "^19.2.3"
   }
 }
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
