@@ -264,7 +264,7 @@ function App() {
     },
     {
       id: 'shehan',
-      name: 'Shehan Randhil',
+      name: 'Shehan Randil',
       role: 'Operations Director',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/shehan',
