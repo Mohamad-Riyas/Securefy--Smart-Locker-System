@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
-import './index.css';
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -232,7 +230,7 @@ function App() {
       role: 'Project Lead & Backend Architect',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/branavaram',
-      linkedin: 'https://www.linkedin.com/in/g-branavaram-351873209/overlay/about-this-profile/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BU1Z8XE5PR6eUaSXurmVB%2Bg%3D%3D',
+      linkedin: 'https://linkedin.com/in/branavaram',
       image: teamImages.branavaram
     },
     {
@@ -259,7 +257,7 @@ function App() {
       role: 'Security & Testing Lead',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/aqeel',
-      linkedin: 'https://www.linkedin.com/in/aqeel-aroos-12626231a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
+      linkedin: 'https://linkedin.com/in/aqeel',
       image: teamImages.aqeel
     },
     {
@@ -268,7 +266,7 @@ function App() {
       role: 'Operations Director',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/shehan',
-      linkedin: 'https://www.linkedin.com/in/shehanrandil?trk=contact-info',
+      linkedin: 'https://linkedin.com/in/shehan-randhil',
       image: teamImages.shehan
     }
   ];
@@ -285,11 +283,11 @@ function App() {
     }
   };
 
-  // Responsive styles object
+  // Responsive styles object - MODIFIED: Reduced padding
   const responsive = {
-    // Padding
-    sectionPadding: isMobile ? '60px 0' : isTablet ? '80px 0' : '120px 0',
-    heroPadding: isMobile ? '120px 0 60px' : isTablet ? '150px 0 80px' : '200px 0 100px',
+    // Padding - Reduced for minimal background padding
+    sectionPadding: isMobile ? '20px 0' : isTablet ? '30px 0' : '40px 0',
+    heroPadding: isMobile ? '40px 0' : isTablet ? '60px 0' : '80px 0',
     containerPadding: isMobile ? '0 20px' : isTablet ? '0 30px' : '0 40px',
     
     // Font sizes
@@ -618,7 +616,7 @@ function App() {
         <div style={{ 
           maxWidth: '1400px', 
           margin: '0 auto', 
-          padding: isMobile ? '0 20px' : '0 30px' 
+          padding: responsive.containerPadding 
         }}>
           <div style={{ 
             display: 'flex', 
@@ -2399,7 +2397,7 @@ function App() {
                 color: '#94A3B8',
                 marginBottom: '8px'
               }}>
-                © 2025 Securefy Smart Locker System. All rights reserved.
+                © 2024 Securefy Smart Locker System. All rights reserved.
               </div>
               <div style={{
                 fontSize: isMobile ? '11px' : '12px',
@@ -2519,8 +2517,6 @@ function App() {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <HelmetProvider>
-      <SecurefyApp />
-    </HelmetProvider>
+    <App />
   </React.StrictMode>
 );
