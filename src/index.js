@@ -225,7 +225,7 @@ function App() {
 
   const projectTeam = [
     {
-      id: 'branavaram',
+      id: 'Branavaram',
       name: 'Branavaram',
       role: 'Project Lead & Backend Architect',
       department: 'BEng(HONS) Software Engineering',
@@ -234,7 +234,7 @@ function App() {
       image: teamImages.branavaram
     },
     {
-      id: 'dhanush',
+      id: 'Dhanush',
       name: 'Dhanush',
       role: 'Hardware Systems Engineer',
       department: 'BEng(HONS) Software Engineering',
@@ -252,7 +252,7 @@ function App() {
       image: teamImages.riyas
     },
     {
-      id: 'aqeel',
+      id: 'Aqeel',
       name: 'Aqeel',
       role: 'Security & Testing Lead',
       department: 'BEng(HONS) Software Engineering',
@@ -261,7 +261,7 @@ function App() {
       image: teamImages.aqeel
     },
     {
-      id: 'shehan',
+      id: 'Shehan',
       name: 'Shehan Randil',
       role: 'Operations Director',
       department: 'BEng(HONS) Software Engineering',
