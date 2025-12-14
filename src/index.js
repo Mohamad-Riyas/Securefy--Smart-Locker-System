@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './index.css'; 
+import App from './App';
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -2514,7 +2515,6 @@ function App() {
     </div>
   );
 }
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
