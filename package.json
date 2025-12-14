@@ -14,9 +14,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
+    "extends": ["react-app"]
   },
   "browserslist": {
     "production": [
@@ -33,5 +31,8 @@
   "devDependencies": {
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
