@@ -1,238 +1,485 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FiLock, FiShield, FiClock, FiSmartphone, FiUsers, FiCheck, FiPlay } from 'react-icons/fi';
+import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import { 
+  FiLock, 
+  FiZap, 
+  FiSmartphone, 
+  FiBattery, 
+  FiBarChart2, 
+  FiGlobe,
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiSend,
+  FiBook,
+  FiArrowUp,
+  FiCheck,
+  FiMoon,
+  FiSun,
+  FiMenu,
+  FiX
+} from 'react-icons/fi';
+import './styles/App.css';
 
 function App() {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.className = theme;
+    document.title = 'Smart Locker System | IIT University Library';
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 
+        'At Securefy, we combine smart technology, strong security, and simple user-friendly design to deliver solutions that truly make life easier. Our system is built with a focus on innovation, reliability, and trust, ensuring that every user enjoys a seamless and secure experience.'
+      );
+    }
+    
+    // Update OG tags for social sharing
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 
+        'Enterprise smart locker system for IIT University Library with military-grade security and instant QR access.'
+      );
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show button when scrolled down more than 300px and scrolling down
+      if (currentScrollY > 300 && currentScrollY > lastScrollY) {
+        setShowScrollTop(true);
+      } else if (currentScrollY < lastScrollY || currentScrollY <= 300) {
+        setShowScrollTop(false);
+      }
+      
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavClick = (e, targetId) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    
+    // Small delay to ensure mobile menu closes before scrolling
+    setTimeout(() => {
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        // Get the actual navbar height dynamically
+        const navbar = document.querySelector('.navbar');
+        const navbarHeight = navbar ? navbar.offsetHeight : 60;
+        
+        // Get element position relative to document
+        const elementRect = targetElement.getBoundingClientRect();
+        const elementTop = elementRect.top + window.pageYOffset;
+        
+        // For home section, scroll to top
+        if (targetId === 'home') {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+          return;
+        }
+        
+        // For other sections, calculate scroll position with proper offset
+        // Account for navbar and add padding to show section headers
+        const headerPadding = 40; // Space to show section headers below navbar
+        const scrollPosition = elementTop - navbarHeight - headerPadding;
+        
+        window.scrollTo({
+          top: Math.max(0, scrollPosition),
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
 
   const teamMembers = [
-    { name: 'Branavaram', role: 'Project Lead', color: 'bg-blue-100 dark:bg-blue-900' },
-    { name: 'Riyas', role: 'UI/UX Designer', color: 'bg-purple-100 dark:bg-purple-900' },
-    { name: 'Dhanush', role: 'Hardware Engineer', color: 'bg-green-100 dark:bg-green-900' },
-    { name: 'Aqeel', role: 'Security & Testing Lead', color: 'bg-red-100 dark:bg-red-900' },
-    { name: 'Shehan', role: 'Operations Director', color: 'bg-yellow-100 dark:bg-yellow-900' },
+    { name: 'Branavaram', role: 'Project Lead & Backend Architect', initials: 'RV', color: '#0066FF', image: '/images/branavaram.jpg' },
+    { name: 'Riyas', role: 'UI/UX Design Lead', initials: 'PS', color: '#8B5CF6', image: '/images/riyas.jpg' },
+    { name: 'Dhanush', role: 'Hardware Systems Engineer', initials: 'AP', color: '#10B981', image: '/images/Dhanush.jpg' },
+    { name: 'Aqeel', role: 'Security & Testing Lead', initials: 'NS', color: '#F59E0B', image: '/images/aqeel.jpg' },
+    { name: 'Shehan', role: 'Operations Director', initials: 'KM', color: '#EC4899', image: '/images/shehan.jpg' }
   ];
 
   const features = [
-    { icon: <FiShield />, title: 'QR Code Security', desc: 'One-time QR codes for maximum security' },
-    { icon: <FiClock />, title: 'Real-Time Availability', desc: 'Live locker status updates' },
-    { icon: <FiSmartphone />, title: 'Mobile-First', desc: 'Access from any device' },
-    { icon: <FiUsers />, title: 'Exclusive for IIT', desc: 'Verified students only' },
+    { icon: FiLock, title: 'Military-Grade Security', description: 'AES-256 encryption with real-time threat detection and SOC2 compliance.' },
+    { icon: FiZap, title: 'Instant Access', description: 'QR code validation in under 500ms with cloud-synced zero-latency access.' },
+    { icon: FiSmartphone, title: 'Enterprise Platform', description: 'Centralized dashboard with advanced analytics and administration controls.' },
+    { icon: FiBattery, title: 'Redundant Systems', description: 'Triple redundancy with 72hr backup power and manual override.' },
+    { icon: FiBarChart2, title: 'AI Analytics', description: 'Predictive maintenance and smart allocation using machine learning.' },
+    { icon: FiGlobe, title: 'Global Standards', description: 'ISO 27001 compliant with institutional security protocols.' }
+  ];
+
+  const timeline = [
+    { step: '01', title: 'Availability Check', desc: 'Real-time locker status via web portal' },
+    { step: '02', title: 'Secure Reservation', desc: 'One-click booking with IIT authentication' },
+    { step: '03', title: 'QR Generation', desc: 'Time-sensitive QR code delivery' },
+    { step: '04', title: 'Instant Access', desc: 'Scan & access within seconds' }
   ];
 
   const stats = [
-    { value: '24/7', label: 'Secure Access' },
-    { value: '500+', label: 'Active Users' },
-    { value: '99.9%', label: 'Uptime' },
-    { value: '<30s', label: 'Reservation' },
+    { value: '99.9%', label: 'System Uptime', suffix: '' },
+    { value: '2.5K', label: 'Active Users', suffix: '+' },
+    { value: '<30s', label: 'Booking Time', suffix: '' },
+    { value: '24/7', label: 'Security', suffix: ' Monitoring' }
   ];
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
-
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`app ${theme}`}>
+      <Helmet>
+        <title>Smart Locker System | IIT University Library</title>
+        <meta 
+          name="description" 
+          content="At Securefy, we combine smart technology, strong security, and simple user-friendly design to deliver solutions that truly make life easier. Our system is built with a focus on innovation, reliability, and trust, ensuring that every user enjoys a seamless and secure experience. We don't just provide a service we provide peace of mind, backed by modern engineering and a commitment to excellence."
+        />
+        <meta name="keywords" content="smart locker system, IIT University, secure storage, campus lockers, IoT lockers, student storage" />
+        <meta property="og:title" content="Smart Locker System | IIT University Library" />
+        <meta property="og:description" content="Enterprise smart locker system revolutionizing campus storage through innovative technology for IIT University." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://security.online" />
+      </Helmet>
+
       {/* Navigation */}
-      <nav className={`sticky top-0 z-50 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-600 rounded-lg">
-              <FiLock className="text-white text-xl" />
+      <nav className="navbar">
+        <div className="container">
+          <div className="nav-content">
+            <div className="logo">
+              <img src="/images/logo.jpg" alt="SmartLockers Logo" className="logo-icon" />
+              <div>
+                <h1>SmartLockers</h1>
+                <p className="logo-subtitle">IIT UNIVERSITY</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold">SmartLockers</h1>
-              <p className="text-sm opacity-70">IIT University</p>
+            <div className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+              {['Home', 'Features', 'Process', 'Team', 'Contact'].map((item) => {
+                const targetId = item.toLowerCase() === 'home' ? 'home' : item.toLowerCase();
+                return (
+                  <a 
+                    key={item} 
+                    href={`#${targetId}`} 
+                    className="nav-link"
+                    onClick={(e) => handleNavClick(e, targetId)}
+                  >
+                    {item}
+                  </a>
+                );
+              })}
             </div>
-          </div>
-          
-          <div className="hidden md:flex space-x-8">
-            {['Home', 'Features', 'How It Works', 'Team', 'Contact'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-blue-500 transition-colors">
-                {item}
-              </a>
-            ))}
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <button 
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
-            >
-              {theme === 'dark' ? '🌙' : '☀️'}
-            </button>
-            <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              Student Portal
-            </button>
+            <div className="nav-actions">
+              <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+                {theme === 'light' ? <FiMoon /> : <FiSun />}
+              </button>
+              <button className="btn btn-primary">Student Portal</button>
+              <button 
+                className="mobile-menu-toggle"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <FiX /> : <FiMenu />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 mb-6">
-                <FiCheck className="mr-2" />
-                Exclusively for IIT Students
+      <section id="home" className="hero">
+        <div className="hero-bg"></div>
+        <div className="container">
+          <div className="hero-grid">
+            <div className="hero-content">
+              <div className="hero-badge">
+                <span className="badge-dot"></span>
+                EXCLUSIVELY FOR IIT UNIVERSITY
               </div>
-              
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Secure Storage,{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
-                  Smart Access
-                </span>{' '}
-                for Academic Excellence
+              <h1 className="hero-title">
+                Intelligent Storage <span className="gradient-text">Solutions</span> for Academic Excellence
               </h1>
-              
-              <p className="text-xl opacity-80 mb-8">
-                Revolutionize your library experience with our intelligent locker system. 
-                Reserve secure storage in seconds, access with QR codes, and focus on your education.
+              <p className="hero-description">
+                Enterprise-grade smart locker system designed specifically for IIT University. 
+                Seamlessly integrate secure storage with cutting-edge technology.
               </p>
-              
-              <div className="flex flex-wrap gap-4 mb-12">
-                <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg flex items-center hover:opacity-90 transition-opacity">
-                  <FiLock className="mr-2" />
-                  Reserve Locker
+              <div className="hero-actions">
+                <button className="btn btn-accent">
+                  <FiSend className="btn-icon" />
+                  Book a Demo
                 </button>
-                <button className="px-8 py-3 border-2 border-blue-600 text-blue-600 rounded-lg flex items-center hover:bg-blue-50 transition-colors">
-                  <FiPlay className="mr-2" />
-                  Watch Demo
+                <button className="btn btn-outline">
+                  <FiBook className="btn-icon" />
+                  View Case Study
                 </button>
               </div>
-              
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="hero-stats">
                 {stats.map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="text-center"
-                  >
-                    <div className="text-3xl font-bold text-blue-500">{stat.value}</div>
-                    <div className="text-sm opacity-70">{stat.label}</div>
-                  </motion.div>
+                  <div key={index} className="stat-item">
+                    <div className="stat-value">{stat.value}{stat.suffix}</div>
+                    <div className="stat-label">{stat.label}</div>
+                  </div>
                 ))}
               </div>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-8 shadow-2xl">
-                <div className="aspect-video rounded-2xl overflow-hidden bg-gradient-to-r from-blue-500/20 to-purple-500/20">
-                  {/* Locker Image */}
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <FiLock className="text-8xl text-blue-500 mx-auto mb-4" />
-                      <p className="text-lg font-semibold">Smart Locker Interface</p>
+            </div>
+            <div className="hero-visual">
+              <div className="mockup-container">
+                    <div className="mockup-header">
+                      <div>
+                        <div className="mockup-subtitle">SMART LOCKER SYSTEM</div>
+                        <div className="mockup-title">Available Lockers: <span className="highlight">47/120</span></div>
+                      </div>
+                      <div className="mockup-icon">
+                        <FiLock />
+                      </div>
                     </div>
+                <div className="locker-grid">
+                  {Array.from({ length: 24 }).map((_, i) => (
+                    <div key={i} className={`locker-cell ${i % 4 === 0 ? 'occupied' : ''}`}>
+                      {i + 1}
+                    </div>
+                  ))}
+                </div>
+                <div className="qr-section">
+                  <div className="qr-code">QR</div>
+                  <div>
+                    <div className="qr-title">SCAN TO ACCESS</div>
+                    <div className="qr-subtitle">One-time code valid for 15 minutes</div>
                   </div>
                 </div>
-                
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ repeat: Infinity, duration: 3 }}
-                  className="absolute -bottom-6 -right-6 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl"
-                >
-                  <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">QR</div>
-                      <div className="text-xs opacity-70 mt-1">SCAN TO UNLOCK</div>
-                    </div>
+                <div className="floating-badge">
+                  <div className="badge-icon">
+                    <FiCheck />
                   </div>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-100 dark:bg-gray-800">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-4">Key Features</h2>
-          <p className="text-xl text-center opacity-80 mb-12 max-w-2xl mx-auto">
-            Designed exclusively for IIT University's needs
-          </p>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white text-2xl mb-4">
-                  {feature.icon}
+      <section id="features" className="features">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Enterprise-Grade Features</h2>
+            <p className="section-subtitle">
+              Built with cutting-edge technology to meet the highest standards
+            </p>
+          </div>
+          <div className="features-grid">
+            {features.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <div key={index} className="feature-card">
+                  <div className="feature-icon">
+                    <IconComponent />
+                  </div>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+                  <div className="feature-tags">
+                    <span className="tag">Enterprise</span>
+                    <span className="tag">Secure</span>
+                    <span className="tag">Scalable</span>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="opacity-70">{feature.desc}</p>
-              </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Process Timeline */}
+      <section id="process" className="timeline">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Four-Step Process</h2>
+            <p className="section-subtitle">
+              Simple, secure, and efficient locker access
+            </p>
+          </div>
+          <div className="timeline-container">
+            <div className="timeline-line"></div>
+            {timeline.map((step, index) => (
+              <div key={index} className="timeline-step">
+                <div className="step-number">{step.step}</div>
+                <div className="step-content">
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Team Section */}
-      <section id="team" className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-4">Meet Our Team</h2>
-          <p className="text-xl text-center opacity-80 mb-12">
-            A dedicated team of IIT students
-          </p>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+      <section id="team" className="team">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Leadership Team</h2>
+            <p className="section-subtitle">
+              Experts in technology, security, and campus operations
+            </p>
+          </div>
+          <div className="team-grid">
             {teamMembers.map((member, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white dark:bg-gray-900 rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <div className={`w-24 h-24 rounded-full mx-auto mb-4 ${member.color} flex items-center justify-center text-2xl`}>
-                  {member.name.charAt(0)}
+              <div key={index} className="team-card">
+                <div className="team-avatar" style={{ background: member.color }}>
+                  <img 
+                    src={member.image} 
+                    alt={member.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '50%'
+                    }}
+                    onError={(e) => {
+                      // Fallback to initials if image fails to load
+                      e.target.style.display = 'none';
+                      e.target.parentElement.textContent = member.initials;
+                    }}
+                  />
                 </div>
-                <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                <p className="text-blue-500 font-semibold mb-3">{member.role}</p>
-                <p className="text-sm opacity-70">Lorem ipsum dolor sit amet consectetur</p>
-              </motion.div>
+                <h3>{member.name}</h3>
+                <p className="team-role">{member.role}</p>
+                <p className="team-bio">Specialized in system architecture and security protocols.</p>
+                <div className="team-social">
+                  <button className="social-btn">LinkedIn</button>
+                  <button className="social-btn">Email</button>
+                </div>
+              </div>
             ))}
           </div>
-          
-          <div className="mt-20 text-center">
-            <div className="inline-block px-8 py-4 rounded-2xl bg-blue-50 dark:bg-blue-900/30">
-              <p className="opacity-80">
-                In collaboration with <span className="font-bold">IIT Library Committee</span> • 
-                Mentored by <span className="font-bold">Prof. S. Kumar</span>
-              </p>
+          <div className="collaboration">
+            <p>In partnership with <strong>IIT Library Committee</strong> • Guided by <strong>Prof. S. Kumar</strong></p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="contact">
+        <div className="container">
+          <div className="contact-grid">
+            <div className="contact-info">
+              <h2>Get in Touch</h2>
+              <p>Ready to transform your campus storage experience?</p>
+              <div className="contact-details">
+                <div className="contact-item">
+                  <div className="contact-icon">
+                    <FiMail />
+                  </div>
+                  <div>
+                    <div className="contact-label">Email</div>
+                    <div className="contact-value">smartlocker@iit.ac.lk</div>
+                  </div>
+                </div>
+                <div className="contact-item">
+                  <div className="contact-icon">
+                    <FiPhone />
+                  </div>
+                  <div>
+                    <div className="contact-label">Phone</div>
+                    <div className="contact-value">+91 12345 67890</div>
+                  </div>
+                </div>
+                <div className="contact-item">
+                  <div className="contact-icon">
+                    <FiMapPin />
+                  </div>
+                  <div>
+                    <div className="contact-label">Location</div>
+                    <div className="contact-value">IIT University Library</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="contact-form">
+              <h3>Schedule a Demo</h3>
+              <form>
+                <input type="text" placeholder="Full Name" className="form-input" />
+                <input type="email" placeholder="Email Address" className="form-input" />
+                <input type="text" placeholder="Department" className="form-input" />
+                <textarea placeholder="Message" rows="4" className="form-textarea"></textarea>
+                <button type="submit" className="btn btn-primary">Submit Request</button>
+              </form>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`py-8 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-lg font-bold mb-2">Smart Locker System</p>
-          <p className="opacity-70">A final year project by IIT Computer Science Department</p>
-          <p className="mt-4 opacity-50 text-sm">© 2023 IIT University. All rights reserved.</p>
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <div className="logo">
+                <img src="/images/logo.jpg" alt="SmartLockers Logo" className="logo-icon" />
+                <div>
+                  <h1>SmartLockers</h1>
+                  <p className="logo-subtitle">IIT UNIVERSITY</p>
+                </div>
+              </div>
+              <p className="footer-description">
+                Enterprise smart locker system revolutionizing campus storage through innovative technology.
+              </p>
+            </div>
+            <div className="footer-links">
+              <h4>Product</h4>
+              <a href="#features">Features</a>
+              <a href="#process">How It Works</a>
+              <a href="#team">Team</a>
+              <a href="#contact">Contact</a>
+            </div>
+            <div className="footer-links">
+              <h4>Resources</h4>
+              <a href="#">Documentation</a>
+              <a href="#">API Reference</a>
+              <a href="#">Support</a>
+              <a href="#">Status</a>
+            </div>
+            <div className="footer-links">
+              <h4>Legal</h4>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+              <a href="#">Security</a>
+              <a href="#">Compliance</a>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>© 2025 Smart Locker System. All rights reserved.</p>
+            <p className="footer-note">A final year project by IIT Computer Science Department</p>
+          </div>
         </div>
       </footer>
+
+      {/* Scroll to Top */}
+      <button 
+        className={`scroll-top ${showScrollTop ? 'visible' : ''}`} 
+        onClick={scrollToTop}
+        aria-label="Scroll to top"
+      >
+        <FiArrowUp />
+      </button>
     </div>
   );
 }

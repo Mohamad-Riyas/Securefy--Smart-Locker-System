@@ -166,11 +166,11 @@ const Footer = () => {
             }}>
               <li style={{ marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <FiMail style={{ color: 'var(--primary)' }} />
-                <a href="mailto:smartlocker@iit.ac.in" style={{
+                <a href="mailto:smartlocker@iit.ac.lk" style={{
                   color: 'var(--text-secondary)',
                   textDecoration: 'none'
                 }}>
-                  smartlocker@iit.ac.in
+                  smartlocker@iit.ac.lk
                 </a>
               </li>
               <li style={{ marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -240,7 +240,7 @@ const Footer = () => {
             &copy; {currentYear} Smart Locker System - IIT University. All rights reserved.
           </p>
           <p style={{ fontSize: '0.875rem', opacity: 0.8 }}>
-            Developed by Final Year Computer Science Students • IIT University Project
+            Developed by 2nd Year Computer Science Students • IIT University Project
           </p>
         </div>
       </div>
