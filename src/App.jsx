@@ -14,6 +14,7 @@ function App() {
   const [isTablet, setIsTablet] = useState(window.innerWidth >= 768 && window.innerWidth < 1024);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   // Team member images and logo (replace these with actual image URLs)
   const teamImages = {
@@ -95,6 +96,20 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Handle Mouse Move for Parallax Effect
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      // Normalize mouse position from -1 to 1
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: (e.clientY / window.innerHeight) * 2 - 1
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   useEffect(() => {
     // Create particles for animated background
     const newParticles = [];
@@ -126,7 +141,7 @@ function App() {
         y: Math.random() * 100,
         size: Math.random() * (isMobile ? 40 : 60) + 20,
         speed: Math.random() * 0.5 + 0.2,
-        opacity: Math.random() * 0.05 + 0.02,
+        opacity: Math.random() * 0.15 + 0.05, // Increased from 0.05+0.02
         delay: Math.random() * 10,
         type: shapes[Math.floor(Math.random() * shapes.length)],
         rotation: Math.random() * 360,
@@ -367,6 +382,8 @@ function App() {
         pointerEvents: 'none',
         overflow: 'hidden'
       }}>
+
+
         {/* Animated Grid Background */}
         <div style={{
           position: 'absolute',
@@ -378,7 +395,9 @@ function App() {
                            linear-gradient(90deg, ${theme === 'light' ? 'rgba(74, 108, 247, 0.03)' : 'rgba(96, 165, 250, 0.03)'} 1px, transparent 1px)`,
           backgroundSize: '50px 50px',
           animation: 'gridMove 40s linear infinite',
-          opacity: 0.5
+          opacity: 0.3,
+          transform: `translate(${mousePosition.x * -30}px, ${mousePosition.y * -30}px)`,
+          transition: 'transform 0.1s ease-out'
         }} />
 
         {/* Floating Geometric Shapes */}
@@ -396,8 +415,9 @@ function App() {
               opacity: shape.opacity,
               animation: `shapeFloat ${30 / shape.speed}s infinite ease-in-out ${shape.delay}s`,
               filter: `blur(${shape.blur}px)`,
-              transform: `rotate(${shape.rotation}deg)`,
-              clipPath: shape.type === 'triangle' ? 'polygon(50% 0%, 0% 100%, 100% 100%)' : 'none'
+              transform: `rotate(${shape.rotation}deg) translate(${mousePosition.x * -60 * shape.speed}px, ${mousePosition.y * -60 * shape.speed}px)`,
+              clipPath: shape.type === 'triangle' ? 'polygon(50% 0%, 0% 100%, 100% 100%)' : 'none',
+              transition: 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)'
             }}
           />
         ))}
@@ -416,7 +436,9 @@ function App() {
               borderRadius: '50%',
               opacity: particle.opacity,
               animation: `particleFloat ${20 / particle.speed}s infinite linear ${particle.delay}s`,
-              filter: 'blur(1px)'
+              filter: 'blur(1px)',
+              transform: `translate(${mousePosition.x * -100 * particle.speed}px, ${mousePosition.y * -100 * particle.speed}px)`,
+              transition: 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)'
             }}
           />
         ))}
@@ -431,7 +453,9 @@ function App() {
           background: `radial-gradient(circle, ${theme === 'light' ? 'rgba(74, 108, 247, 0.15)' : 'rgba(96, 165, 250, 0.15)'} 0%, transparent 70%)`,
           borderRadius: '50%',
           filter: 'blur(40px)',
-          animation: 'orbFloat 20s ease-in-out infinite alternate'
+          animation: 'orbFloat 20s ease-in-out infinite alternate',
+          transform: `translate(${mousePosition.x * 50}px, ${mousePosition.y * 50}px)`,
+          transition: 'transform 0.4s ease-out'
         }} />
 
         <div style={{
@@ -443,7 +467,9 @@ function App() {
           background: `radial-gradient(circle, ${theme === 'light' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(52, 211, 153, 0.1)'} 0%, transparent 70%)`,
           borderRadius: '50%',
           filter: 'blur(30px)',
-          animation: 'orbFloat 25s ease-in-out infinite alternate-reverse'
+          animation: 'orbFloat 25s ease-in-out infinite alternate-reverse',
+          transform: `translate(${mousePosition.x * 80}px, ${mousePosition.y * 80}px)`,
+          transition: 'transform 0.4s ease-out'
         }} />
       </div>
 
@@ -633,8 +659,8 @@ function App() {
         top: 0,
         width: '100%',
         background: 'rgba(66, 57, 57, 0)',
-        backdropFilter: 'blur(10px) saturate(150%)',
-        WebkitBackdropFilter: 'blur(15px) saturate(180%)',
+        backdropFilter: 'blur(60px) saturate(150%)',
+        WebkitBackdropFilter: 'blur(60px) saturate(180%)',
         padding: isMobile ? '12px 0' : '15px 0',
         zIndex: 1000,
         borderBottom: `1px solid rgba(${theme === 'light' ? '74, 108, 247' : '96, 165, 250'}, 0.15)`,
@@ -815,22 +841,30 @@ function App() {
 
                 <button
                   className="mobile-menu-button"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMobileMenuOpen(!mobileMenuOpen);
+                  }}
                   style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '8px',
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '12px',
                     background: currentColors.gradient,
                     border: 'none',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
-                    fontSize: '18px',
+                    fontSize: '20px',
                     color: currentColors.accent,
-                    transition: 'all 0.3s ease'
+                    transition: 'all 0.3s ease',
+                    position: 'relative',
+                    zIndex: 1002,
+                    boxShadow: `0 4px 12px ${currentColors.primary}40`
                   }}>
-                  {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+                  <div style={{ pointerEvents: 'none', display: 'flex' }}>
+                    {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+                  </div>
                 </button>
               </div>
             )}
@@ -940,11 +974,75 @@ function App() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" ref={heroRef} style={{
-        padding: responsive.heroPadding,
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
+      <section id="home" ref={heroRef}
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          e.currentTarget.style.setProperty('--x', `${x}px`);
+          e.currentTarget.style.setProperty('--y', `${y}px`);
+        }}
+        style={{
+          padding: responsive.heroPadding,
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+
+        {/* Colorful "Antigravity" Fluid Effect */}
+        <div className="hero-flare" style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 0,
+          filter: 'blur(60px) contrast(1.2) saturate(1.5)', // Gooey/Fluid look
+          opacity: 0.6
+        }}>
+          {/* Orb 1: Cyan (Fastest) */}
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '300px',
+            height: '300px',
+            background: 'radial-gradient(circle, rgba(34, 211, 238, 0.5) 0%, transparent 70%)',
+            borderRadius: '50%',
+            transform: 'translate(calc(var(--x, -150px) - 50%), calc(var(--y, -150px) - 50%))',
+            transition: 'transform 0.8s cubic-bezier(0.075, 0.82, 0.165, 1)',
+            mixBlendMode: 'screen'
+          }} />
+
+          {/* Orb 2: Purple (Medium) */}
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '400px',
+            height: '400px',
+            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.5) 0%, transparent 70%)',
+            borderRadius: '50%',
+            transform: 'translate(calc(var(--x, -200px) - 40% + 50px), calc(var(--y, -200px) - 40% - 50px))',
+            transition: 'transform 1.2s cubic-bezier(0.075, 0.82, 0.165, 1)',
+            mixBlendMode: 'screen'
+          }} />
+
+          {/* Orb 3: Pink (Slowest/Trailing) */}
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '350px',
+            height: '350px',
+            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.5) 0%, transparent 70%)',
+            borderRadius: '50%',
+            transform: 'translate(calc(var(--x, -175px) - 60% - 50px), calc(var(--y, -175px) - 60% + 50px))',
+            transition: 'transform 1.6s cubic-bezier(0.075, 0.82, 0.165, 1)',
+            mixBlendMode: 'screen'
+          }} />
+        </div>
+
         <div style={{
           maxWidth: '1400px',
           margin: '0 auto',
