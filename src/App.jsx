@@ -9,13 +9,6 @@ import {
 import { Helmet } from "react-helmet";
 
 function App() {
-  
-  return (
-    <>
-      <Helmet>
-        <title>Securefy – Smart Locker System</title>
-        <meta name="description" content="Securefy is a smart locker system with QR access and AES-256 encryption for IIT University students." />
-  
   const [theme, setTheme] = useState('light');
   const [activeStep, setActiveStep] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -2670,8 +2663,6 @@ function App() {
         </button>
       )}
     </div>
-    </Helmet>
-    </>
   );
 }
 
