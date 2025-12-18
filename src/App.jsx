@@ -272,7 +272,7 @@ function App() {
       role: 'Project Lead & Backend Architect',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/branavaram',
-      linkedin: 'https://linkedin.com/in/branavaram',
+      linkedin: 'https://www.linkedin.com/in/g-branavaram-351873209?utm_source=share_via&utm_content=profile&utm_medium=member_ios',
       image: teamImages.branavaram
     },
     {
@@ -299,12 +299,12 @@ function App() {
       role: 'Security & Testing Lead',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/aqeel',
-      linkedin: 'https://linkedin.com/in/aqeel',
+      linkedin: 'https://www.linkedin.com/in/aqeel-aroos-12626231a/overlay/about-this-profile/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BCOXpTvF1QuSp%2B4SyrP4%2Bdg%3D%3D',
       image: teamImages.aqeel
     },
     {
       id: 'shehan',
-      name: 'Shehan Randhil',
+      name: 'Shehan Randil',
       role: 'Operations Director',
       department: 'BEng(HONS) Software Engineering',
       github: 'https://github.com/shehan',
