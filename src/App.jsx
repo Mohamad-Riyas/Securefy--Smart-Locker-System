@@ -6,8 +6,20 @@ import {
   FaCheckCircle, FaHandshake, FaCheck, FaArrowUp, FaTimes, FaBars,
   FaTwitter, FaInstagram, FaGithub, FaLinkedin, FaPaperPlane, FaGlobe, FaEnvelope
 } from 'react-icons/fa';
+import { Helmet } from "react-helmet";
 
 function App() {
+  
+  return (
+    <>
+      <Helmet>
+        <title>Securefy – Smart Locker System</title>
+        <meta name="description" content="Securefy is a smart locker system with QR access and AES-256 encryption for IIT University students." />
+      </Helmet>
+      <h1>Welcome to Securefy</h1>
+    </>
+  );
+  
   const [theme, setTheme] = useState('light');
   const [activeStep, setActiveStep] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
