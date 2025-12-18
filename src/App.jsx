@@ -16,7 +16,6 @@ function App() {
         <title>Securefy – Smart Locker System</title>
         <meta name="description" content="Securefy is a smart locker system with QR access and AES-256 encryption for IIT University students." />
       </Helmet>
-      <h1>Welcome to Securefy</h1>
     </>
   );
   
