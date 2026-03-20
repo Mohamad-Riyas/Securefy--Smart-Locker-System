@@ -1116,7 +1116,7 @@ function App() {
                 marginBottom: isMobile ? '30px' : '0'
               }}>
                 <button
-                  onClick={() => window.open("https://securefy-smart-locker-system-lcsd.vercel.app/register", "_blank")}
+                  onClick={() => window.open("https://securefy-smart-locker-system-lcsd.vercel.app", "_blank")}
                   style={{
                     padding: responsive.buttonPadding,
                     background: currentColors.gradient,
