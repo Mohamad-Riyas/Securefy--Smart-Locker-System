@@ -951,7 +951,7 @@ function App() {
                 ))}
                 <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
                   <button
-                    onClick={() => window.open("https://securefy-smart-locker-system-lcsd.vercel.app", "_blank")}
+                    onClick={() => window.open("https://official.securefy.online/", "_blank")}
                     style={{
                       width: '100%',
                       padding: '12px',
