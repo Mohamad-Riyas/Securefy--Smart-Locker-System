@@ -951,7 +951,7 @@ function App() {
                 ))}
                 <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
                   <button
-                    onClick={() => window.open("https://official.securefy.online/", "_blank")}
+                    onClick={() => window.open("https://securefy.online/", "_blank")}
                     style={{
                       width: '100%',
                       padding: '12px',
@@ -1116,7 +1116,7 @@ function App() {
                 marginBottom: isMobile ? '30px' : '0'
               }}>
                 <button
-                  onClick={() => window.open("https://official.securefy.online/", "_blank")}
+                  onClick={() => window.open("https://securefy.online/", "_blank")}
                   style={{
                     padding: responsive.buttonPadding,
                     background: currentColors.gradient,
@@ -2248,7 +2248,7 @@ function App() {
               alignItems: 'center'
             }}>
               <button
-                onClick={() => window.open("https://official.securefy.online/", "_blank")}
+                onClick={() => window.open("https://securefy.online/", "_blank")}
                 style={{
                   padding: responsive.ctaButtonPadding,
                   background: currentColors.gradient,
